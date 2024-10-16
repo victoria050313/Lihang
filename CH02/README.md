@@ -25,7 +25,8 @@
 - 本章中涉及到向量内积，有超平面的概念，也有线性可分数据集的说明，在策略部分有说明损关于失函数的选择的考虑，可以和[CH07](../CH07/README.md)一起看。另外， 感知机和SVM的更多联系源自margin的思想， 实际上在本章的介绍中并没有体现margin的思想，参考文献中有给出对应的文献。
 - 本章涉及的两个例子，思考一下为什么$\eta=1​$，进而思考一下参数空间，这两个例子设计了相应的测试案例实现， 在后面的内容中也有展示。
 - 在**收敛性证明**那部分提到了偏置合并到权重向量的技巧，合并后的权重向量叫做扩充权重向量，这点在LR和SVM中都有应用，但是这种技巧在书中的表示方式是不一样的，采用的不是统一的符号体系，或者说不是统一的。本书三个章节讨论过算法的收敛性，感知机， AdaBoost，EM算法。
-- 第一次涉及Gram Matrix $G=[x_i\cdot x_j]_{N\times N}$
+- 第一次涉及Gram Matrix
+  $G=[x_i\cdot x_j]_{N\times N}$
 - 感知机的激活函数是符号函数。
 - 感知机是神经网络和支持向量机的基础。
 - 当我们讨论**决策边界**的时候, 实际上是在考虑算法的**几何解释**。
@@ -44,11 +45,14 @@
 
 ### 模型
 
-输入空间：$\mathcal X\sube \bf R^n$
+输入空间：
+$\mathcal X\sube \bf R^n$
 
-输出空间：$\mathcal Y={+1,-1}$
+输出空间：
+$\mathcal Y={+1,-1}$
 
-> 决策函数：$f(x)=sign (w\cdot x+b)$
+> 决策函数：
+$f(x)=sign (w\cdot x+b)$
 
 ### 策略
 
@@ -63,9 +67,8 @@
 > 损失函数的另一个选择是误分类点到超平面$S$的总距离，这是感知机所采用的
 
 感知机学习的经验风险函数(损失函数)
-$$
-L(w,b)=-\sum_{x_i\in M}y_i(w\cdot x_i+b)
-$$
+$L(w,b)=-\sum_{x_i\in M}y_i(w\cdot x_i+b)$
+
 其中$M$是误分类点的集合
 
 给定训练数据集$T$，损失函数$L(w,b)$是$w$和$b$的连续可导函数
@@ -76,19 +79,23 @@ $$
 
 #### 原始形式
 
-> 输入：$T=\{(x_1,y_1),(x_2,y_2),\dots,(x_N,y_N)\}\\ x_i\in \cal X=\bf R^n\mit , y_i\in \cal Y\it =\{-1,+1\}, i=1,2,\dots,N; \ \ 0<\eta\leqslant 1$
+> 输入：
+$T=\{(x_1,y_1),(x_2,y_2),\dots,(x_N,y_N)\}\\ x_i\in \cal X=\bf R^n\mit , y_i\in \cal Y\it =\{-1,+1\}, i=1,2,\dots,N; \ \ 0<\eta\leqslant 1$
 >
-> 输出：$w,b;f(x)=sign(w\cdot x+b)$
+> 输出：
+$w,b;f(x)=sign(w\cdot x+b)$
 >
-> 1. 选取初值$w_0,b_0$
+> 1. 选取初值
+$w_0,b_0$
 >
-> 1. 训练集中选取数据$(x_i,y_i)$
+> 1. 训练集中选取数据
+$(x_i,y_i)$
 >
-> 1. 如果$y_i(w\cdot x_i+b)\leqslant 0$
->    $$
->    w\leftarrow w+\eta y_ix_i \nonumber\\
->    b\leftarrow b+\eta y_i
->    $$
+> 1. 如果
+$y_i(w\cdot x_i+b)\leqslant 0$
+
+$w\leftarrow w+\eta y_ix_i \nonumber\\b\leftarrow b+\eta y_i$
+>   
 > 4. 转至(2)，直至训练集中没有误分类点
 
 注意这个原始形式中的迭代公式，可以对$x​$补1，将$w​$和$b​$合并在一起，合在一起的这个叫做扩充权重向量，书上有提到。
@@ -99,23 +106,28 @@ $$
 
 
 
-> 输入：$T=\{(x_1,y_1),(x_2,y_2),\dots,(x_N,y_N)\}\\ x_i\in \cal{X}=\bf{R}^n , y_i\in \cal{Y} =\{-1,+1\}, i=1,2,\dots, N; 0< \eta \leqslant 1$
+> 输入：
+$T=\{(x_1,y_1),(x_2,y_2),\dots,(x_N,y_N)\}\\ x_i\in \cal{X}=\bf{R}^n , y_i\in \cal{Y} =\{-1,+1\}, i=1,2,\dots, N; 0< \eta \leqslant 1$
 >
 > 输出：
-> $$
-> \alpha ,b; f(x)=sign\left(\sum_{j=1}^N\alpha_jy_jx_j\cdot x+b\right)\nonumber\\
-> \alpha=(\alpha_1,\alpha_2,\cdots,\alpha_N)^T
-> $$
+> 
+> $\alpha ,b; f(x)=sign\left(\sum_{j=1}^N\alpha_jy_jx_j\cdot x+b\right)\nonumber$
+> 
+> $\alpha=(\alpha_1,\alpha_2,\cdots,\alpha_N)^T$
 >
-> 1. $\alpha \leftarrow 0,b\leftarrow 0​$
 >
-> 1. 训练集中选取数据$(x_i,y_i)$
+> 1.
+$\alpha \leftarrow 0,b\leftarrow 0​$
 >
-> 1. 如果$y_i\left(\sum_{j=1}^N\alpha_jy_jx_j\cdot x+b\right) \leqslant 0​$
-> $$
-> \alpha_i\leftarrow \alpha_i+\eta \nonumber\\
-> b\leftarrow b+\eta y_i
-> $$
+> 1. 训练集中选取数据
+$(x_i,y_i)$
+>
+> 1. 如果
+$y_i\left(\sum_{j=1}^N\alpha_jy_jx_j\cdot x+b\right) \leqslant 0​$
+> 
+> $\alpha_i\leftarrow \alpha_i+\eta \nonumber$
+> 
+> $b\leftarrow b+\eta y_i$
 >
 > 4. 转至(2)，直至训练集中没有误分类点
 
@@ -124,9 +136,8 @@ $$
 对偶形式中，训练实例仅以内积的形式出现。
 
 为了方便可预先将训练集中的实例间的内积计算出来并以矩阵的形式存储，这个矩阵就是所谓的Gram矩阵
-$$
-G=[x_i\cdot x_j]_{N\times N} \nonumber
-$$
+
+$G=[x_i\cdot x_j]_{N\times N} \nonumber$
 
 ## 例子
 
@@ -142,8 +153,10 @@ $$
 
 这个例子也简单，注意两点
 
-1. $\eta=1$
-1. $\alpha_i\leftarrow \alpha_i+1, b\leftarrow b+y_i$
+1.
+$\eta=1$
+1.
+$\alpha_i\leftarrow \alpha_i+1, b\leftarrow b+y_i$
 
 以上：
 
@@ -181,19 +194,26 @@ $$
 
 题中问考虑损失函数最值的时候，不会有影响么？
 
-1. 感知机处理线性可分数据集，二分类，$\cal Y=\{+1,-1\}$ ，所以涉及到的乘以 ![y_i](https://www.zhihu.com/equation?tex=y_i)  的操作实际贡献的是符号；
+1. 感知机处理线性可分数据集，二分类，
+$\cal Y=\{+1,-1\}$ ，所以涉及到的乘以 ![y_i](https://www.zhihu.com/equation?tex=y_i)  的操作实际贡献的是符号；
 
-1. 损失函数 $L(w,b)=-\sum_{x_i\in M}y_i(w\cdot x_i+b)$,其中 $M$ 是错分的点集合，线性可分的数据集肯定能找到超平面 $S$， 所以这个损失函数最值是0。
+1. 损失函数
+$L(w,b)=-\sum_{x_i\in M}y_i(w\cdot x_i+b)$,其中 $M$ 是错分的点集合，线性可分的数据集肯定能找到超平面 $S$， 所以这个损失函数最值是0。
 
-1. 如果正确分类， $y_i(w\cdot x_i+b)=|w\cdot x_i+b|$  ，错误分类的话，为了保证正数就加个负号，这就是损失函数里面那个负号，这个就是函数间隔；
+1. 如果正确分类，
+$y_i(w\cdot x_i+b)=|w\cdot x_i+b|$  ，错误分类的话，为了保证正数就加个负号，这就是损失函数里面那个负号，这个就是函数间隔；
 
-1.  $\frac{1}{||w||}$  用来归一化超平面法向量，得到几何间隔，也就是点到超平面的距离， 函数间隔和几何间隔的差异在于同一个超平面 $(w,b)$  参数等比例放大成 $(kw,kb)$  之后，虽然表示的同一个超平面，但是点到超平面的函数间隔也放大了，但是几何间隔是不变的；
+1.
+  $\frac{1}{||w||}$  用来归一化超平面法向量，得到几何间隔，也就是点到超平面的距离， 函数间隔和几何间隔的差异在于同一个超平面 $(w,b)$  参数等比例放大成 $(kw,kb)$  之后，虽然表示的同一个超平面，但是点到超平面的函数间隔也放大了，但是几何间隔是不变的；
 
 1. 具体算法实现的时候， $w​$要初始化，然后每次迭代针对错分点进行调整，既然要初始化，那如果初始化个 $||w||=1​$ 的情况也就不用纠结了，和不考虑 $\frac{1}{||w||}​$  是一样的了；
 
 1. 针对错分点是这么调整的
 
-   $\begin{aligned} w&\leftarrow w+\eta y_ix_i\\ b&\leftarrow b+\eta y_i \end{aligned}$
+$w \leftarrow w + \eta y_i x_i$
+  
+$b \leftarrow b + \eta y_i$
+
 
    前面说了 $y_i$  就是个符号，那么感知机就可以解释为针对误分类点，通过调整 $w,b$  使得超平面向该误分类点一侧移动，迭代这个过程最后全分类正确；
 
