@@ -176,7 +176,9 @@ $\bf R\it ^n$
 
 这部分讲到了最小二乘法，给了PRML中的一个例子。
 
-这个问题中**训练数据**为$T=\{(x_1, y_1),(x_2,y_2),\cdots,(x_N,y_N)\}$
+这个问题中**训练数据**为
+
+$T=\{(x_1, y_1),(x_2,y_2),\cdots,(x_N,y_N)\}$
 
 **模型**为
 
@@ -190,7 +192,9 @@ $L(w)=\frac{1}{2}\sum\limits_{i=1}^N(f(x_i,w)-y_i)^2$
 
 $L(w)=\frac{1}{2}\sum\limits_{i=1}^N\left(\sum\limits_{j=0}^Mw_jx_i^j-y_i\right)^2=\frac{1}{2}\sum\limits_{i=1}^N(w\cdot x_i-y_i)^2$
 
-这个问题要求$w=(w_0^*,w_1^*,\cdots,w_M^*)$
+这个问题要求
+
+$w = (w_0^*, w_1^*, \cdots, w_M^*)$
 
 对$w$求偏导令其为零，得到一系列方程，求解可以用梯度下降或者矩阵分解。
 
